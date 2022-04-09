@@ -1,8 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer' as devtools show log;
-
 import 'package:mynotes/constants/routes.dart';
+import 'package:mynotes/utilities/show_error_dialog.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({Key? key}) : super(key: key);
@@ -56,18 +55,27 @@ class _RegisterViewState extends State<RegisterView> {
               final email = _email.text;
               final password = _password.text;
               try {
-                final userCredential = await FirebaseAuth.instance
-                    .createUserWithEmailAndPassword(
-                        email: email, password: password);
-                devtools.log(userCredential.toString());
+                await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                    email: email, password: password);
+                final user = FirebaseAuth.instance.currentUser;
+                await user?.sendEmailVerification();
+                Navigator.of(context).pushNamed(verifyEmailRoute);
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'weak-password') {
-                  devtools.log('Weak password');
+                  await showErrorDialog(context, 'Mật khẩu yếu');
                 } else if (e.code == 'email-already-in-use') {
-                  devtools.log('Email is already in use');
+                  await showErrorDialog(
+                      context, 'Thư điện tử này đã được sử dụng');
                 } else if (e.code == 'invalid-email') {
-                  devtools.log('Invalid email');
+                  await showErrorDialog(
+                      context, 'Thư điện tử không đúng định dạng.');
+                } else {
+                  await showErrorDialog(context,
+                      'Lỗi này sẽ được sửa trong bản cập nhật tới: ${e.code}');
                 }
+              } catch (e) {
+                await showErrorDialog(context,
+                    'Lỗi này sẽ được sửa trong bản cập nhật tới: ${e.toString()}');
               }
             },
             child: const Text('Đăng ký'),

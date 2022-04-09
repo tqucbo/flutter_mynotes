@@ -7,7 +7,6 @@ import 'package:mynotes/views/login_view.dart';
 import 'package:mynotes/views/register_view.dart';
 import 'package:mynotes/views/verify_email_view.dart';
 
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
@@ -27,7 +26,8 @@ class MyApp extends StatelessWidget {
       routes: {
         loginRoute: (context) => const LoginView(),
         registerRoute: (context) => const RegisterView(),
-        notesRoute:(context) => const NotesView(),
+        notesRoute: (context) => const NotesView(),
+        verifyEmailRoute: (context) => const VerifyEmailView(),
       },
     );
   }
@@ -87,7 +87,8 @@ class _NotesViewState extends State<NotesView> {
               final shouldLogout = await showLogOutDialog(context);
               if (shouldLogout) {
                 await FirebaseAuth.instance.signOut();
-                Navigator.of(context).pushNamedAndRemoveUntil(loginRoute, (route) => false);
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil(loginRoute, (route) => false);
               }
           }
         }, itemBuilder: (context) {
