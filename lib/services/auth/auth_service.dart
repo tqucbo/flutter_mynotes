@@ -9,6 +9,8 @@ class AuthService implements AuthProvider {
         FirebaseAuthProvider(),
       );
 
+  
+
   @override
   Future<AuthUser> createUser({
     required String email,
