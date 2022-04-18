@@ -31,6 +31,12 @@ class _NotesViewState extends State<NotesView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Ghi chú của bạn'), actions: [
+        IconButton(
+          onPressed: () {
+            Navigator.of(context).pushNamed(newNoteRoute);
+          },
+          icon: const Icon(Icons.add),
+        ),
         PopupMenuButton(onSelected: (value) async {
           switch (value) {
             case MenuAction.logout:
@@ -50,7 +56,6 @@ class _NotesViewState extends State<NotesView> {
           ];
         })
       ]),
-      // body: const Text('data')
       body: FutureBuilder(
         future: _notesService.getOrCreateUser(email: userEmail),
         builder: (context, snapshot) {

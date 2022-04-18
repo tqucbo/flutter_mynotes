@@ -44,10 +44,8 @@ class NotesService {
     await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
 
-    // make sure note exists
     await getNote(id: note.id);
 
-    // update DB
     final updatesCount = await db.update(noteTable, {
       textColumn: text,
       isSyncedWithCloudColumn: 0,
@@ -223,9 +221,7 @@ class NotesService {
   Future<void> _ensureDbIsOpen() async {
     try {
       await open();
-    } on DatabaseAlreadyOpenException {
-      // empty
-    }
+    } on DatabaseAlreadyOpenException {}
   }
 
   Future<void> open() async {
