@@ -49,11 +49,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyC91ANS1umvzgQfJ5e4kJe5-3vcUUQSb0E',
-    appId: '1:156659680045:ios:6b14bb899afd88cfc909a4',
+    appId: '1:156659680045:ios:b2ddee7d4d33dc48c909a4',
     messagingSenderId: '156659680045',
     projectId: 'mynotes-flutter-project-cbd54',
     storageBucket: 'mynotes-flutter-project-cbd54.appspot.com',
-    iosClientId: '156659680045-5amsc3qj08bueo37ulf1p6229t3ddv6c.apps.googleusercontent.com',
-    iosBundleId: 'com.tqucbo.mynotes',
+    iosClientId: '156659680045-mhj1hvo7hb6908fs5g6vp526i8bjgvaq.apps.googleusercontent.com',
+    iosBundleId: 'com.example.mynotes',
   );
 }
