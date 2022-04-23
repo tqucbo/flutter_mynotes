@@ -106,7 +106,10 @@ void main() {
         'Should be able to log out and log in again',
         () async {
           await provider.logOut();
-          await provider.logIn(email: 'email', password: 'password',);
+          await provider.logIn(
+            email: 'email',
+            password: 'password',
+          );
           final user = provider.currentUser;
           expect(user, isNotNull);
         },
@@ -161,7 +164,11 @@ class MockAuthProvider implements AuthProvider {
     if (password == 'foobar') {
       throw WrongPasswordAuthException();
     }
-    const user = AuthUser(isEmailVerified: false, email: 'foo@bar.com');
+    const user = AuthUser(
+      isEmailVerified: false,
+      email: 'foo@bar.com',
+      id: 'myid',
+    );
     _user = user;
     return Future.value(user);
   }
@@ -187,7 +194,11 @@ class MockAuthProvider implements AuthProvider {
     if (user == null) {
       throw UserNotFoundAuthException();
     }
-    const newUser = AuthUser(isEmailVerified: true, email: 'foo@bar.com');
+    const newUser = AuthUser(
+      isEmailVerified: true,
+      email: 'foo@bar.com',
+      id: 'myid',
+    );
     _user = newUser;
   }
 }
