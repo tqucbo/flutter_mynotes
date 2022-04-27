@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mynotes/constants/routes.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
+import 'package:mynotes/services/auth/bloc/auth_bloc.dart';
+import 'package:mynotes/services/auth/bloc/auth_event.dart';
 
 class VerifyEmailView extends StatefulWidget {
   const VerifyEmailView({Key? key}) : super(key: key);
@@ -18,17 +21,24 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
       ),
       body: Column(
         children: [
-          const Text('Chúng tôi đã gửi thư xác nhận đến địa chỉ thư điện tử bạn đã nhập.'),
-          const Text('Nếu chưa nhận được thư xác nhận, vui lòng nhấn nút dưới đây để gửi lại.'),
+          const Text(
+              'Chúng tôi đã gửi thư xác nhận đến địa chỉ thư điện tử bạn đã nhập.'),
+          const Text(
+              'Nếu chưa nhận được thư xác nhận, vui lòng nhấn nút dưới đây để gửi lại.'),
           TextButton(
-              onPressed: () async {
-                await AuthService.firebase().sendEmailVerification();
+              onPressed: () {
+                context.read<AuthBloc>().add(
+                      const AuthEventSendEmailVerification(),
+                    );
               },
               child: const Text('Gửi lại thư xác thực')),
-              TextButton(onPressed: () async {
-                await AuthService.firebase().logOut();
-              Navigator.of(context).pushNamedAndRemoveUntil(registerRoute, (route) => false);
-              }, child: const Text('Khởi động lại'))
+          TextButton(
+              onPressed: () async {
+                context.read<AuthBloc>().add(
+                      const AuthEventLogOut(),
+                    );
+              },
+              child: const Text('Khởi động lại'))
         ],
       ),
     );
