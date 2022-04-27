@@ -19,27 +19,32 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
       appBar: AppBar(
         title: const Text('Xác thực thư điện tử'),
       ),
-      body: Column(
-        children: [
-          const Text(
-              'Chúng tôi đã gửi thư xác nhận đến địa chỉ thư điện tử bạn đã nhập.'),
-          const Text(
-              'Nếu chưa nhận được thư xác nhận, vui lòng nhấn nút dưới đây để gửi lại.'),
-          TextButton(
-              onPressed: () {
-                context.read<AuthBloc>().add(
-                      const AuthEventSendEmailVerification(),
-                    );
-              },
-              child: const Text('Gửi lại thư xác thực')),
-          TextButton(
-              onPressed: () async {
-                context.read<AuthBloc>().add(
-                      const AuthEventLogOut(),
-                    );
-              },
-              child: const Text('Khởi động lại'))
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            const Text(
+                'Chúng tôi đã gửi thư xác nhận đến địa chỉ thư điện tử bạn đã nhập.'),
+            const Text(
+                'Nếu chưa nhận được thư xác nhận, vui lòng nhấn nút \'Gửi lại thư xác thực\'.'),
+            const Text(
+                'Nếu đã thực hiện xác nhận tài khoản, vui lòng nhấn nút \'Đăng nhập\''),
+            TextButton(
+                onPressed: () {
+                  context.read<AuthBloc>().add(
+                        const AuthEventSendEmailVerification(),
+                      );
+                },
+                child: const Text('Gửi lại thư xác thực')),
+            TextButton(
+                onPressed: () async {
+                  context.read<AuthBloc>().add(
+                        const AuthEventLogOut(),
+                      );
+                },
+                child: const Text('Đăng nhập'))
+          ],
+        ),
       ),
     );
   }

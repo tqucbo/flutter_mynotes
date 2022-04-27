@@ -40,7 +40,7 @@ class _LoginViewState extends State<LoginView> {
       listener: (context, state) async {
         if (state is AuthStateLoggedOut) {
           if (state.exception is UserNotFoundAuthException) {
-            await showErrorDialog(context, 'Không tìm thấy tài khoản này.');
+            await showErrorDialog(context, 'Không tìm thấy tài khoản với thông tin vừa nhập.');
           } else if (state.exception is WrongPasswordAuthException) {
             await showErrorDialog(
                 context, 'Thư điện tử hoặc mật khẩu không đúng.');
@@ -55,43 +55,54 @@ class _LoginViewState extends State<LoginView> {
         appBar: AppBar(
           title: const Text('Đăng nhập'),
         ),
-        body: Column(
-          children: [
-            TextField(
-              controller: _email,
-              enableSuggestions: false,
-              autocorrect: false,
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(hintText: 'Thư điện tử'),
-            ),
-            TextField(
-              controller: _password,
-              obscureText: true,
-              enableSuggestions: false,
-              autocorrect: false,
-              decoration: const InputDecoration(hintText: 'Mật khẩu'),
-            ),
-            TextButton(
-              onPressed: () async {
-                final email = _email.text;
-                final password = _password.text;
-                context.read<AuthBloc>().add(
-                      AuthEventLogIn(
-                        email,
-                        password,
-                      ),
-                    );
-              },
-              child: const Text('Đăng nhập'),
-            ),
-            TextButton(
-                onPressed: () {
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              const Text('Để truy cập vào các ghi chú đã lưu, vui lòng đăng nhập vào tài khoản của bạn.'),
+              TextField(
+                controller: _email,
+                enableSuggestions: false,
+                autocorrect: false,
+                keyboardType: TextInputType.emailAddress,
+                decoration: const InputDecoration(hintText: 'Thư điện tử'),
+              ),
+              TextField(
+                controller: _password,
+                obscureText: true,
+                enableSuggestions: false,
+                autocorrect: false,
+                decoration: const InputDecoration(hintText: 'Mật khẩu'),
+              ),
+              TextButton(
+                onPressed: () async {
+                  final email = _email.text;
+                  final password = _password.text;
                   context.read<AuthBloc>().add(
-                        const AuthEventShouldRegister(),
+                        AuthEventLogIn(
+                          email,
+                          password,
+                        ),
                       );
                 },
-                child: const Text('Chưa có tài khoản? Đăng ký ngay!')),
-          ],
+                child: const Text('Đăng nhập'),
+              ),
+              TextButton(
+                  onPressed: () {
+                    context.read<AuthBloc>().add(
+                          const AuthEventShouldRegister(),
+                        );
+                  },
+                  child: const Text('Chưa có tài khoản? Đăng ký ngay!')),
+              TextButton(
+                  onPressed: () {
+                    context.read<AuthBloc>().add(
+                          const AuthEventForgotPassword()
+                        );
+                  },
+                  child: const Text('Quên mật khẩu')),
+            ],
+          ),
         ),
       ),
     );
