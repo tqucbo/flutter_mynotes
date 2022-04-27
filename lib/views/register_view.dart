@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mynotes/extenstions/buildcontext/loc.dart';
 import 'package:mynotes/services/auth/auth_exceptions.dart';
 import 'package:mynotes/services/auth/bloc/auth_bloc.dart';
 import 'package:mynotes/services/auth/bloc/auth_event.dart';
@@ -39,74 +40,76 @@ class _RegisterViewState extends State<RegisterView> {
           if (state.exception is WeakPasswordAuthException) {
             await showErrorDialog(
               context,
-              'Mật khẩu yếu',
+              context.loc.register_error_weak_password,
             );
           } else if (state.exception is EmailAlreadyInUseAuthException) {
             await showErrorDialog(
               context,
-              'Thư điện tử này đã được sử dụng',
+              context.loc.register_error_email_already_in_use,
             );
           } else if (state.exception is InvalidEmailAuthException) {
             await showErrorDialog(
               context,
-              'Thư điện tử không đúng định dạng.',
+              context.loc.register_error_invalid_email,
             );
           } else if (state.exception is GenericAuthException) {
             await showErrorDialog(
               context,
-              'Lỗi xác thực không xác định.',
+              context.loc.register_error_generic,
             );
           }
         }
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Đăng ký'),
+          title: Text(context.loc.register),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text('Đăng ký ngay để sử dụng ứng dụng ghi chú tuyệt vời nhất bạn từng biết.'),
-              TextField(
-                controller: _email,
-                enableSuggestions: false,
-                autocorrect: false,
-                autofocus: true,
-                keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(hintText: 'Thư điện tử'),
-              ),
-              TextField(
-                controller: _password,
-                obscureText: true,
-                enableSuggestions: false,
-                autocorrect: false,
-                decoration: const InputDecoration(hintText: 'Mật khẩu'),
-              ),
-              Center(
-                child: TextButton(
-                  onPressed: () async {
-                    final email = _email.text;
-                    final password = _password.text;
-                    context.read<AuthBloc>().add(
-                          AuthEventRegister(
-                            email,
-                            password,
-                          ),
-                        );
-                  },
-                  child: const Text('Đăng ký'),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(context.loc.register_view_prompt),
+                TextField(
+                  controller: _email,
+                  enableSuggestions: false,
+                  autocorrect: false,
+                  autofocus: true,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(hintText: context.loc.email_text_field_placeholder),
                 ),
-              ),
-              Center(
-                child: TextButton(
-                    onPressed: () {
-                      context.read<AuthBloc>().add(const AuthEventLogOut());
+                TextField(
+                  controller: _password,
+                  obscureText: true,
+                  enableSuggestions: false,
+                  autocorrect: false,
+                  decoration: InputDecoration(hintText: context.loc.password_text_field_placeholder),
+                ),
+                Center(
+                  child: TextButton(
+                    onPressed: () async {
+                      final email = _email.text;
+                      final password = _password.text;
+                      context.read<AuthBloc>().add(
+                            AuthEventRegister(
+                              email,
+                              password,
+                            ),
+                          );
                     },
-                    child: const Text('Đã có tài khoản? Đăng nhập ngay!')),
-              ),
-            ],
+                    child: Text(context.loc.register),
+                  ),
+                ),
+                Center(
+                  child: TextButton(
+                      onPressed: () {
+                        context.read<AuthBloc>().add(const AuthEventLogOut());
+                      },
+                      child: Text(context.loc.register_view_already_registered)),
+                ),
+              ],
+            ),
           ),
         ),
       ),

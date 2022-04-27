@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mynotes/extenstions/buildcontext/loc.dart';
 import 'package:mynotes/utilities/dialogs/generic_dialog.dart';
 
 Future<bool> showDeleteDialog(
@@ -6,11 +7,11 @@ Future<bool> showDeleteDialog(
 ) {
   return showGenericDialog<bool>(
     context: context,
-    title: 'Xoá ghi chú',
-    content: 'Bạn có chắc muốn xoá ghi chú này không?',
+    title: context.loc.delete,
+    content: context.loc.delete_note_prompt,
     optionBuilder: () => {
-      'Huỷ': false,
-      'Đồng ý': true,
+      context.loc.cancel: false,
+      context.loc.yes: true,
     },
   ).then(
     (value) => value ?? false,

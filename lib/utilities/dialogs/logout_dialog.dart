@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mynotes/extenstions/buildcontext/loc.dart';
 import 'package:mynotes/utilities/dialogs/generic_dialog.dart';
 
 Future<bool> showLogOutDialog(
@@ -6,11 +7,11 @@ Future<bool> showLogOutDialog(
 ) {
   return showGenericDialog<bool>(
     context: context,
-    title: 'Đăng xuất',
-    content: 'Bạn có chắc muốn đăng xuất không?',
+    title: context.loc.logout_button,
+    content: context.loc.logout_dialog_prompt,
     optionBuilder: () => {
-      'Huỷ': false,
-      'Đồng ý': true,
+      context.loc.cancel: false,
+      context.loc.yes: true,
     },
   ).then(
     (value) => value ?? false,

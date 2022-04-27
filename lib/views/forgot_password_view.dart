@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mynotes/extenstions/buildcontext/loc.dart';
 import 'package:mynotes/services/auth/bloc/auth_bloc.dart';
 import 'package:mynotes/services/auth/bloc/auth_event.dart';
 import 'package:mynotes/services/auth/bloc/auth_state.dart';
@@ -38,42 +39,43 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
             await showPasswordResetSentDialog(context);
           }
           if (state.exception != null) {
-            await showErrorDialog(context,
-                'Chúng tôi không thể thực hiện yêu cầu. Có thể do thư điện tử của bạn đã được đăng ký.');
+            await showErrorDialog(
+                context, context.loc.forgot_password_view_generic_error);
           }
         }
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Quên mật khẩu'),
+          title: Text(context.loc.forgot_password),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(children: [
-            const Text(
-                'Nếu bạn thật sự quên mật khẩu, hãy nhập thư điện tử của bạn và chúng tôi sẽ gửi một thư xác thực yêu cầu này.'),
-            TextField(
-              keyboardType: TextInputType.emailAddress,
-              autocorrect: false,
-              autofocus: true,
-              controller: _controller,
-              decoration: const InputDecoration(
-                  hintText: 'Địa chỉ thử điện tử của bạn'),
-            ),
-            TextButton(
-                onPressed: () {
-                  final email = _controller.text;
-                  context
-                      .read<AuthBloc>()
-                      .add(AuthEventForgotPassword(email: email));
-                },
-                child: const Text('Gửi yêu cầu')),
-            TextButton(
-                onPressed: () {
-                  context.read<AuthBloc>().add(const AuthEventLogOut());
-                },
-                child: const Text('Đăng nhập')),
-          ]),
+          child: SingleChildScrollView(
+            child: Column(children: [
+              Text(context.loc.forgot_password_view_prompt),
+              TextField(
+                keyboardType: TextInputType.emailAddress,
+                autocorrect: false,
+                autofocus: true,
+                controller: _controller,
+                decoration: InputDecoration(
+                    hintText: context.loc.email_text_field_placeholder),
+              ),
+              TextButton(
+                  onPressed: () {
+                    final email = _controller.text;
+                    context
+                        .read<AuthBloc>()
+                        .add(AuthEventForgotPassword(email: email));
+                  },
+                  child: Text(context.loc.forgot_password_view_send_me_link)),
+              TextButton(
+                  onPressed: () {
+                    context.read<AuthBloc>().add(const AuthEventLogOut());
+                  },
+                  child: Text(context.loc.forgot_password_view_back_to_login)),
+            ]),
+          ),
         ),
       ),
     );

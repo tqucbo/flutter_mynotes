@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mynotes/extenstions/buildcontext/loc.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
 import 'package:mynotes/services/cloud/cloud_note.dart';
 import 'package:mynotes/services/cloud/firebase_cloud_storage.dart';
-import 'package:mynotes/services/cloud/cloud_storage_exceptions.dart';
 import 'package:mynotes/utilities/dialogs/cannot_share_empty_note_dialog.dart';
 import 'package:mynotes/utilities/generics/get_arguments.dart';
 import 'package:share_plus/share_plus.dart';
@@ -97,7 +97,7 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tạo ghi chú mới'),
+        title: Text(context.loc.note),
         actions: [
           IconButton(
             onPressed: () async {
@@ -124,8 +124,8 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
                   controller: _textController,
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
-                  decoration: const InputDecoration(
-                    hintText: 'Viết ghi chú của bạn ở đây...',
+                  decoration: InputDecoration(
+                    hintText: context.loc.start_typing_your_note,
                   ),
                 );
               default:
